@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Menu | Dave &amp; Marbie's Cafe</title>
+<meta name="description" content="The full Dave &amp; Marbie's Cafe menu: coffee, craft drinks, teas, sodas, fruit cups, froyo, Yo-Shakes, and food.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<nav class="nav" aria-label="Main">
+  <div class="wrap">
+    <a class="logo-link" href="index.html" aria-label="Dave &amp; Marbie's Cafe home"><span class="logo logo-nav" role="img" aria-label="Dave &amp; Marbie's Cafe"></span></a>
+    <ul class="nav-links"><li><a href="index.html">Home</a></li><li><a href="menu.html" aria-current="page">Menu</a></li><li><a href="about.html">About</a></li><li><a class="nav-cta" href="https://www.google.com/maps/search/?api=1&amp;query=200+Main+St+E+Suite+101+Menomonie+WI" target="_blank" rel="noopener">Get directions</a></li></ul>
+    <button class="menu-btn" id="menuBtn" type="button" aria-label="Open menu" aria-controls="drawer" aria-expanded="false"><span></span></button>
+  </div>
+</nav>
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="drawer" aria-label="Site menu" hidden>
+  <div class="drawer-top"><span class="eyebrow">Menu</span><button class="close-btn" id="closeBtn" type="button" aria-label="Close menu">&times;</button></div>
+  <ul class="drawer-links"><li><a href="index.html">Home</a></li><li><a href="menu.html" aria-current="page">Menu</a></li><li><a href="about.html">About</a></li></ul>
+  <div class="drawer-info"><b>200 Main St E, Suite 101</b><span>Menomonie, WI · Opening soon</span></div>
+  <a class="nav-cta" href="https://www.google.com/maps/search/?api=1&amp;query=200+Main+St+E+Suite+101+Menomonie+WI" target="_blank" rel="noopener">Get directions</a>
+</aside>
+<main>
+<header class="page-hero">
+  <div class="wrap">
+    <span class="eyebrow">Coffee · Fruit · FroYo · Craft Drinks</span>
+    <h1>Menu<span class="dot">.</span></h1>
+  </div>
+</header>
+
+<section class="band deep" style="padding-top:clamp(32px,4vw,48px)">
+  <div class="wrap">
+    <div class="menu-frame" id="menuEmbed"></div>
+    <p class="menu-note">Prices and items may change before opening.</p>
+  </div>
+</section>
+
+<template id="menuTpl"><style>
+  :host{
+    --espresso:#3B2419;
+    --coffee:#6E4530;
+    --coffee-soft:#8C5F44;
+    --cream:#FBF3EA;
+    --cream-deep:#F4E7D8;
+    --blush:#F3D2DC;
+    --blush-deep:#EABBC9;
+    --rose:#C97C93;
+    --rose-deep:#B15E77;
+    --line: rgba(59,36,25,0.14);
+  }
+
+  *{box-sizing:border-box;}
+
+  .menu-root{
+    margin:0;
+    background:var(--cream);
+    color:var(--espresso);
+    font-family:'Karla', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .page{
+    max-width:880px;
+    margin:0 auto;
+    padding:0 24px 80px;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:var(--espresso);
+    color:var(--blush);
+    padding:64px 24px 56px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"";
+    position:absolute;
+    left:50%;
+    bottom:0;
+    transform:translateX(-50%);
+    width:120px;
+    height:4px;
+    background:var(--rose);
+    border-radius:4px;
+  }
+  .hero-mark{
+    font-family:'Fraunces', serif;
+    font-optical-sizing:auto;
+    font-weight:600;
+    font-size:clamp(2.6rem, 7vw, 4.4rem);
+    line-height:1;
+    margin:0;
+    color:#fff;
+  }
+  .hero-amp{
+    color:var(--rose);
+    font-style:italic;
+    font-weight:400;
+  }
+  .hero-sub{
+    margin:18px auto 0;
+    max-width:440px;
+    font-size:1.02rem;
+    color:var(--blush-deep);
+    line-height:1.5;
+  }
+  .hero-tag{
+    margin-top:22px;
+    font-size:0.85rem;
+    letter-spacing:0.04em;
+    color:#fff;
+    opacity:0.75;
+  }
+
+  /* ---------- SECTION SCAFFOLDING ---------- */
+  section.menu-block{
+    padding:52px 0 8px;
+    border-bottom:1px solid var(--line);
+  }
+  section.menu-block:last-of-type{ border-bottom:none; }
+
+  .block-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:16px;
+    margin-bottom:6px;
+  }
+  .block-title{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:1.9rem;
+    margin:0;
+    color:var(--espresso);
+  }
+  .block-note{
+    font-size:0.86rem;
+    color:var(--coffee-soft);
+    font-style:italic;
+    max-width:230px;
+    text-align:right;
+  }
+  .block-desc{
+    color:var(--coffee-soft);
+    font-size:0.95rem;
+    margin:0 0 26px;
+    max-width:520px;
+    line-height:1.5;
+  }
+
+  /* ---------- ITEM ROWS ---------- */
+  .item-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:18px;
+    padding:13px 0;
+    border-top:1px solid var(--line);
+  }
+  .item-row:first-of-type{ border-top:none; }
+  .item-name{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:1.08rem;
+    color:var(--espresso);
+  }
+  .item-variant{
+    display:block;
+    font-family:'Karla', sans-serif;
+    font-weight:400;
+    font-size:0.82rem;
+    color:var(--coffee-soft);
+    margin-top:2px;
+  }
+  .item-price{
+    font-weight:600;
+    color:var(--rose-deep);
+    white-space:nowrap;
+    font-size:0.98rem;
+  }
+  .item-sub{
+    font-size:0.86rem;
+    color:var(--coffee-soft);
+    margin-top:2px;
+  }
+
+  /* size price header strip */
+  .size-strip{
+    display:flex;
+    gap:22px;
+    margin:0 0 22px;
+    font-size:0.86rem;
+    color:var(--coffee);
+    font-weight:600;
+  }
+  .size-strip span{
+    background:var(--blush);
+    padding:4px 12px;
+    border-radius:999px;
+  }
+
+  /* ---------- COFFEE GRID (two columns) ---------- */
+  .coffee-wrap{
+    display:grid;
+    grid-template-columns:1.35fr 1fr;
+    gap:36px;
+  }
+  @media (max-width:640px){
+    .coffee-wrap{grid-template-columns:1fr;}
+  }
+  .coffee-list .item-row{ padding:11px 0; }
+
+  .side-panel{
+    background:var(--blush);
+    border-radius:18px;
+    padding:22px 22px 24px;
+  }
+  .side-panel + .side-panel{ margin-top:18px; }
+  .side-title{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:1.05rem;
+    margin:0 0 4px;
+    color:var(--rose-deep);
+  }
+  .side-caption{
+    font-size:0.8rem;
+    color:var(--coffee);
+    margin:0 0 14px;
+    line-height:1.4;
+  }
+  .pill-group{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .pill{
+    background:#fff;
+    color:var(--espresso);
+    font-size:0.82rem;
+    padding:6px 13px;
+    border-radius:999px;
+    border:1px solid var(--blush-deep);
+  }
+
+  /* ---------- OPTION LISTS (customization rows, no price) ---------- */
+  .option-row{
+    display:flex;
+    gap:16px;
+    padding:12px 0;
+    border-top:1px solid var(--line);
+    align-items:baseline;
+  }
+  .option-row:first-of-type{border-top:none;}
+  .option-label{
+    font-weight:700;
+    font-size:0.82rem;
+    color:var(--coffee);
+    min-width:110px;
+    flex-shrink:0;
+  }
+  .option-values{
+    font-size:0.92rem;
+    color:var(--espresso);
+    line-height:1.6;
+  }
+
+  /* ---------- FOOD LIST ---------- */
+  .food-group-title{
+    font-family:'Fraunces', serif;
+    font-size:1.02rem;
+    font-weight:600;
+    color:var(--rose-deep);
+    margin:26px 0 4px;
+  }
+  .food-group-title:first-child{ margin-top:0; }
+
+  /* ---------- ADD-ON TABLE ---------- */
+  .addon-row{
+    display:flex;
+    justify-content:space-between;
+    gap:16px;
+    padding:11px 0;
+    border-top:1px solid var(--line);
+  }
+  .addon-row:first-of-type{ border-top:none; }
+  .addon-name{ font-weight:600; font-size:0.95rem; }
+  .addon-detail{
+    display:block;
+    font-size:0.82rem;
+    color:var(--coffee-soft);
+    margin-top:2px;
+  }
+  .addon-price{
+    font-weight:600;
+    color:var(--rose-deep);
+    white-space:nowrap;
+    font-size:0.9rem;
+  }
+
+  /* ---------- FOOTER ---------- */
+  .footer{
+    text-align:center;
+    margin-top:56px;
+    padding-top:28px;
+    border-top:2px solid var(--blush-deep);
+  }
+  .footer-line{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    color:var(--coffee);
+    font-size:1.05rem;
+  }
+  .footer-sub{
+    font-size:0.8rem;
+    color:var(--coffee-soft);
+    margin-top:6px;
+  }
+
+.hero{display:none!important}.page{padding-top:8px}</style><div class="menu-root">
+
+  <div class="hero">
+    <p class="hero-mark">Dave <span class="hero-amp">&amp;</span> Marbie's</p>
+    <p class="hero-sub">Fresh Coffee. Fresh Fruit. Fresh Vibes.</p>
+    <p class="hero-tag">COFFEE · FROYO · CRAFT DRINKS</p>
+  </div>
+
+  <div class="page">
+
+    <!-- COFFEE -->
+    <section class="menu-block">
+      <div class="block-head">
+        <h2 class="block-title">Coffee Options</h2>
+      </div>
+      <div class="coffee-wrap">
+        <div class="coffee-list">
+          <div class="item-row"><span class="item-name">Latte<span class="item-variant">Hot or iced</span></span></div>
+          <div class="item-row"><span class="item-name">Flat White<span class="item-variant">Hot or iced</span></span></div>
+          <div class="item-row"><span class="item-name">Macchiato<span class="item-variant">Hot or iced</span></span></div>
+          <div class="item-row"><span class="item-name">Cappuccino<span class="item-variant">Standard, dry, or extra dry</span></span></div>
+          <div class="item-row"><span class="item-name">Americano<span class="item-variant">Hot or iced</span></span></div>
+          <div class="item-row"><span class="item-name">Breve Latte<span class="item-variant">Hot or iced</span></span></div>
+          <div class="item-row"><span class="item-name">Hot Drip Coffee</span></div>
+          <div class="item-row"><span class="item-name">Iced Coffee</span></div>
+          <div class="item-row"><span class="item-name">Cold Brew</span></div>
+          <div class="item-row"><span class="item-name">Red Eye<span class="item-variant">Hot or iced</span></span></div>
+          <div class="item-row"><span class="item-name">Steamer</span></div>
+          <div class="item-row"><span class="item-name">Cafe au Lait<span class="item-variant">Hot or iced</span></span></div>
+          <div class="item-row"><span class="item-name">London Fog<span class="item-variant">Hot or iced</span></span></div>
+          <div class="item-row"><span class="item-name">Chai Latte<span class="item-variant">Hot or iced</span></span></div>
+          <div class="item-row"><span class="item-name">Espresso</span></div>
+        </div>
+        <div class="coffee-side">
+          <div class="side-panel">
+            <p class="side-title">Size</p>
+            <div class="pill-group">
+              <span class="pill">12oz — $4.99</span>
+              <span class="pill">16oz — $5.99</span>
+              <span class="pill">20oz — $6.99</span>
+            </div>
+          </div>
+          <div class="side-panel">
+            <p class="side-title">Caffeine Level</p>
+            <div class="pill-group">
+              <span class="pill">Full Caf</span>
+              <span class="pill">Decaf</span>
+            </div>
+          </div>
+          <div class="side-panel">
+            <p class="side-title">Flavors</p>
+            <p class="side-caption">Add to any coffee drink</p>
+            <div class="pill-group">
+              <span class="pill">Vanilla</span>
+              <span class="pill">French Vanilla</span>
+              <span class="pill">Hazelnut</span>
+              <span class="pill">Toffee Nut</span>
+              <span class="pill">Mocha</span>
+              <span class="pill">White Mocha</span>
+              <span class="pill">Caramel</span>
+              <span class="pill">Salted Caramel</span>
+              <span class="pill">Brown Sugar Cinnamon</span>
+            </div>
+          </div>
+          <div class="side-panel">
+            <p class="side-title">Milk</p>
+            <p class="side-caption">Choose your pour</p>
+            <div class="pill-group">
+              <span class="pill">2%</span>
+              <span class="pill">Whole</span>
+              <span class="pill">Skim</span>
+              <span class="pill">Oat</span>
+              <span class="pill">Soy</span>
+              <span class="pill">Almond</span>
+              <span class="pill">Half &amp; Half</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CRAFT DRINKS -->
+    <section class="menu-block">
+      <div class="block-head">
+        <h2 class="block-title">Craft Drinks</h2>
+      </div>
+      <div class="size-strip">
+        <span>12oz — $4.99</span><span>16oz — $5.99</span><span>20oz — $6.99</span>
+      </div>
+      <div class="option-row">
+        <span class="option-label">Base</span>
+        <span class="option-values">Water · Lemonade · Green Tea</span>
+      </div>
+      <div class="option-row">
+        <span class="option-label">Style</span>
+        <span class="option-values">Still · Carbonated</span>
+      </div>
+      <div class="option-row">
+        <span class="option-label">Flavors</span>
+        <span class="option-values">Fiery Strawberry Mango Tajin · Strawberry Passionfruit · Blood Orange Grapefruit · Honey Lemon · POG · Lavender Lemonade · Raspberry Hibiscus</span>
+      </div>
+    </section>
+
+    <!-- CUSTOM CRAFT DRINK -->
+    <section class="menu-block">
+      <div class="block-head">
+        <h2 class="block-title">Custom Craft Drink</h2>
+      </div>
+      <div class="size-strip">
+        <span>12oz — $5.99</span><span>16oz — $6.99</span><span>20oz — $7.99</span>
+      </div>
+      <div class="option-row">
+        <span class="option-label">Base</span>
+        <span class="option-values">Water · Lemonade · Green Tea · Hibiscus Tea</span>
+      </div>
+      <div class="option-row">
+        <span class="option-label">Style</span>
+        <span class="option-values">Still · Carbonated</span>
+      </div>
+      <div class="option-row">
+        <span class="option-label">Flavor Syrup</span>
+        <span class="option-values">Pick two — Raspberry · Strawberry · Blackberry · Blueberry · Honey · Orange · Guava · Peach · Chili · Blood Orange · Lavender · Mango · Pineapple · Passionfruit · Lychee · Hibiscus</span>
+      </div>
+      <div class="option-row">
+        <span class="option-label">Fruit</span>
+        <span class="option-values">Raspberry · Strawberry · Blackberry · Blueberry · Orange · Mango · Pineapple · Dragonfruit · Peach · Grapefruit · Pear</span>
+      </div>
+    </section>
+
+    <!-- TEAS -->
+    <section class="menu-block">
+      <div class="block-head">
+        <h2 class="block-title">Teas</h2>
+      </div>
+      <div class="size-strip">
+        <span>12oz — $3.99</span><span>16oz — $4.99</span><span>20oz — $5.99</span>
+      </div>
+      <div class="option-row">
+        <span class="option-label">Tea</span>
+        <span class="option-values">Green · White · Black · Hibiscus</span>
+      </div>
+      <div class="option-row">
+        <span class="option-label">Temp</span>
+        <span class="option-values">Iced · Hot</span>
+      </div>
+      <div class="option-row">
+        <span class="option-label">Milk *upcharge</span>
+        <span class="option-values">Whole · Oat · Almond</span>
+      </div>
+      <div class="option-row">
+        <span class="option-label">Add-ons *upcharge</span>
+        <span class="option-values">Fresh Fruit · Tapioca Pearls · Popping Boba</span>
+      </div>
+    </section>
+
+    <!-- SODAS -->
+    <section class="menu-block">
+      <div class="block-head">
+        <h2 class="block-title">Sodas</h2>
+      </div>
+      <div class="item-row">
+        <span class="item-name">French Soda<span class="item-variant">S $4.99 · M $5.99 · L $6.99</span></span>
+      </div>
+      <div class="item-row">
+        <span class="item-name">Italian Soda<span class="item-variant">S $3.99 · M $4.99 · L $5.99</span></span>
+      </div>
+      <div class="option-row" style="margin-top:8px;">
+        <span class="option-label">Flavor</span>
+        <span class="option-values">Raspberry · Strawberry · Blueberry · Blackberry · Orange · Guava · Peach · Wildberry · POG · Mango · Pineapple</span>
+      </div>
+    </section>
+
+    <!-- FROYO -->
+    <section class="menu-block">
+      <div class="block-head">
+        <h2 class="block-title">FroYo</h2>
+        <p class="block-note">2 toppings included · additional toppings priced individually</p>
+      </div>
+      <div class="size-strip">
+        <span>S — $4.99</span><span>M — $5.99</span><span>L — $6.99</span>
+      </div>
+      <div class="option-row">
+        <span class="option-label">Flavors</span>
+        <span class="option-values">Vanilla · Chocolate · Strawberry · Seasonal</span>
+      </div>
+      <div class="option-row">
+        <span class="option-label">Toppings</span>
+        <span class="option-values">Fresh Fruits · Candies/Cookies · Drizzles</span>
+      </div>
+    </section>
+
+    <!-- YO-SHAKE -->
+    <section class="menu-block">
+      <div class="block-head">
+        <h2 class="block-title">Yo-Shake</h2>
+      </div>
+      <div class="size-strip">
+        <span>S — $6.99</span><span>M — $7.99</span><span>L — $8.99</span>
+      </div>
+      <div class="option-row">
+        <span class="option-label">Base Froyo</span>
+        <span class="option-values">Vanilla · Chocolate · Strawberry · Seasonal</span>
+      </div>
+      <div class="option-row">
+        <span class="option-label">Mix-In</span>
+        <span class="option-values">Fresh Fruits · Candies/Cookies · Drizzles</span>
+      </div>
+      <div class="option-row">
+        <span class="option-label">Topping</span>
+        <span class="option-values">Whipped Cream · None</span>
+      </div>
+    </section>
+
+    <!-- BREAKFAST -->
+    <section class="menu-block">
+      <div class="block-head">
+        <h2 class="block-title">Breakfast</h2>
+      </div>
+
+      <div class="item-row">
+        <span class="item-name">Fro-Nola Cup<span class="item-variant">Base froyo + plain or chocolate granola + choice of 2 fruits</span></span>
+        <span class="item-price">$5.99</span>
+      </div>
+      <div class="item-row">
+        <span class="item-name">Bacon, Egg &amp; Cheese Croissant</span>
+      </div>
+      <div class="item-row">
+        <span class="item-name">Egg &amp; Cheese Croissant</span>
+      </div>
+      <div class="item-row">
+        <span class="item-name">Veggie Flatbread</span>
+      </div>
+    </section>
+
+    <!-- LUNCH -->
+    <section class="menu-block">
+      <div class="block-head">
+        <h2 class="block-title">Lunch</h2>
+      </div>
+      <div class="item-row">
+        <span class="item-name">Sandwich<span class="item-variant">Dill Cream Cheese &amp; Cucumber · Hummus &amp; Veggies</span></span>
+        <span class="item-price">$5.99</span>
+      </div>
+      <div class="item-row">
+        <span class="item-name">Snack Plate<span class="item-variant">Mozz, Crackers &amp; Berries · Hummus, Pita &amp; Veggies</span></span>
+        <span class="item-price">$5.99</span>
+      </div>
+    </section>
+
+    <!-- SIDES -->
+    <section class="menu-block">
+      <div class="block-head">
+        <h2 class="block-title">Sides</h2>
+      </div>
+      <div class="item-row"><span class="item-name">Carbonated Water</span><span class="item-price">$0.25</span></div>
+      <div class="item-row"><span class="item-name">Fruit Cup — 4oz</span><span class="item-price">$4.99</span></div>
+      <div class="item-row"><span class="item-name">Fruit Cup — 8oz</span><span class="item-price">$6.99</span></div>
+      <div class="item-row"><span class="item-name">Packaged Cake</span><span class="item-price">$2.99</span></div>
+      <div class="item-row"><span class="item-name">Nonni's Biscotti</span><span class="item-price">$2.99</span></div>
+      <div class="item-row"><span class="item-name">Almonds Bag</span><span class="item-price">$4.99</span></div>
+    </section>
+
+    <!-- ADD-ONS -->
+    <section class="menu-block">
+      <div class="block-head">
+        <h2 class="block-title">Add-Ons</h2>
+      </div>
+      <div class="addon-row"><span class="addon-name">Maraschino Cherry</span><span class="addon-price">+$0.15</span></div>
+      <div class="addon-row"><span class="addon-name">Extra Ice</span><span class="addon-price">Free</span></div>
+      <div class="addon-row"><span class="addon-name">Lemon/Lime Wedge</span><span class="addon-price">+$0.25</span></div>
+      <div class="addon-row">
+        <span class="addon-name">Sweetener<span class="addon-detail">Honey · Agave · Cane Sugar · Sweet-N-Low · Simple Syrup</span></span>
+        <span class="addon-price">+$0.25</span>
+      </div>
+      <div class="addon-row"><span class="addon-name">Cream</span><span class="addon-price">+$0.25</span></div>
+      <div class="addon-row"><span class="addon-name">Tajin</span><span class="addon-price">+$0.25</span></div>
+      <div class="addon-row">
+        <span class="addon-name">Flavor Syrup — Fruit<span class="addon-detail">Raspberry · Strawberry · Blackberry · Blueberry · Honey · Orange · Guava · Peach · Chili · Blood Orange · Lavender · Mango · Pineapple · Passionfruit · Lychee · Hibiscus</span></span>
+        <span class="addon-price">+$0.50</span>
+      </div>
+      <div class="addon-row">
+        <span class="addon-name">Flavor Syrup — Sweet<span class="addon-detail">Vanilla · French Vanilla · Hazelnut · Toffee Nut · Mocha · White Mocha · Caramel · Salted Caramel · Brown Sugar Cinnamon · Toasted Marshmallow · Honey · Pistachio · Peppermint · Cinnamon · Lavender · Maple</span></span>
+        <span class="addon-price">+$0.50</span>
+      </div>
+      <div class="addon-row">
+        <span class="addon-name">Drizzle<span class="addon-detail">Dark Choc · Milk Choc · White Choc · Caramel · Marshmallow</span></span>
+        <span class="addon-price">+$0.50</span>
+      </div>
+      <div class="addon-row">
+        <span class="addon-name">Candy/Cookie Topping<span class="addon-detail">Crushed Oreos · Mini Marshmallows · Gummy Worms · Choc Chunks · White Choc Chips · Butterscotch Chips · Graham Crackers · Nilla Wafers · Coconut Flakes</span></span>
+        <span class="addon-price">+$0.50</span>
+      </div>
+      <div class="addon-row"><span class="addon-name">Whipped Cream</span><span class="addon-price">+$0.50</span></div>
+      <div class="addon-row"><span class="addon-name">Milk</span><span class="addon-price">+$0.50</span></div>
+      <div class="addon-row"><span class="addon-name">Energy Shot — 55mg</span><span class="addon-price">+$1.00</span></div>
+      <div class="addon-row">
+        <span class="addon-name">Nuts<span class="addon-detail">Pistachios · Cashews · Walnuts · Peanuts · Hemp Seeds · Chia Seeds</span></span>
+        <span class="addon-price">+$0.50</span>
+      </div>
+      <div class="addon-row">
+        <span class="addon-name">Fruit Dust<span class="addon-detail">Strawberry · Mango · Lemon · Blood Orange · Peach · Raspberry</span></span>
+        <span class="addon-price">+$0.75</span>
+      </div>
+      <div class="addon-row"><span class="addon-name">Tapioca Pearls</span><span class="addon-price">+$1.50</span></div>
+      <div class="addon-row">
+        <span class="addon-name">Fresh Fruit</span>
+        <span class="addon-price">+$1.00</span>
+      </div>
+      <div class="addon-row">
+        <span class="addon-name">Premium Topping</span>
+        <span class="addon-price">+$2.00</span>
+      </div>
+      <div class="addon-row">
+        <span class="addon-name">Popping Boba<span class="addon-detail">Strawberry · Passionfruit · Blueberry · Mango</span></span>
+        <span class="addon-price">+$1.00</span>
+      </div>
+    </section>
+
+    <div class="footer">
+      <p class="footer-line">Made fresh, cup by cup and bowl by bowl.</p>
+      <p class="footer-sub">Ask about seasonal features and full customization</p>
+    </div>
+
+  </div>
+</div></template>
+</main>
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div><h3>Find us</h3><p class="big">200 Main St E, Suite 101<br>Menomonie, WI</p><a href="https://www.google.com/maps/search/?api=1&amp;query=200+Main+St+E+Suite+101+Menomonie+WI" target="_blank" rel="noopener">Get directions</a></div>
+      <div><h3>Hours</h3><p>Coming soon. Our grand opening date will be posted here.</p></div>
+      <div><h3>Rewards</h3><p>Earn 1 point for every $1 you spend and cash them in on free drinks, froyo, and fruit cups. Sign up at the register with your phone number.</p></div>
+    </div>
+    <div class="foot-bottom">
+      <span class="logo logo-foot" role="img" aria-label="Dave &amp; Marbie's Cafe"></span>
+      <ul class="foot-links"><li><a href="index.html">Home</a></li><li><a href="menu.html">Menu</a></li><li><a href="about.html">About</a></li></ul>
+      <small>Fresh Coffee. Fresh Fruit. Fresh Vibes. · © 2026 Dave &amp; Marbie's Cafe</small>
+    </div>
+  </div>
+</footer>
+<script src="site.js"></script>
+</body>
+</html>
