@@ -14,32 +14,17 @@
   --dark:#3B2419;
   --dark-ink:#FBF3EA;
   --dark-sub:#EABBC9;
-  --card:#FFFFFF;
+  --card:#F3D2DC;
   --line:rgba(59,36,25,.14);
   --scrim:rgba(59,36,25,.45);
   --display:'Fraunces', Georgia, 'Times New Roman', serif;
   --body:'Karla', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --gutter-l:max(16px, env(safe-area-inset-left, 0px));
   --gutter-r:max(16px, env(safe-area-inset-right, 0px));
+  color-scheme:light;
 }
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#24160F; --bg-deep:#2B1A12; --band:#3B2419; --band-deep:#4A2E21;
-    --ink:#FBF3EA; --ink-soft:#F3D2DC; --muted:#D9B7A4;
-    --accent:#EABBC9; --accent-soft:#C97C93;
-    --dark:#170E0A; --dark-ink:#FBF3EA; --dark-sub:#EABBC9;
-    --card:#2E1C14; --line:rgba(251,243,234,.14); --scrim:rgba(0,0,0,.6);
-    color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#24160F; --bg-deep:#2B1A12; --band:#3B2419; --band-deep:#4A2E21;
-  --ink:#FBF3EA; --ink-soft:#F3D2DC; --muted:#D9B7A4;
-  --accent:#EABBC9; --accent-soft:#C97C93;
-  --dark:#170E0A; --dark-ink:#FBF3EA; --dark-sub:#EABBC9;
-  --card:#2E1C14; --line:rgba(251,243,234,.14); --scrim:rgba(0,0,0,.6);
-  color-scheme:dark;
-}
+/* Always the light cream & blush look, even when a phone is in dark mode. */
+.band.blush{--card:#FBF3EA}
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -121,7 +106,7 @@ img{max-width:100%}
 /* ---------- HOME: info strip ---------- */
 .info-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 @media (max-width:820px){.info-strip{grid-template-columns:1fr}}
-.info-card{background:var(--card);border-radius:20px;padding:22px 24px;display:grid;gap:6px;align-content:start;min-width:0;border:1px solid var(--line)}
+.info-card{background:var(--card);border-radius:20px;padding:22px 24px;display:grid;gap:6px;align-content:start;min-width:0}
 .info-card .eyebrow{color:var(--muted)}
 .info-card .big{font-family:var(--display);font-weight:600;font-size:1.3rem;line-height:1.25;color:var(--ink)}
 .info-card p{color:var(--ink-soft)}
